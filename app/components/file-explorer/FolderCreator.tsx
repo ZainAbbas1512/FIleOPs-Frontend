@@ -25,7 +25,7 @@ export function FolderCreator({
     setIsCreating(true);
     setError('');
     try {
-      const fullPath = currentPath ? `${folderName}` : folderName;
+      const fullPath = currentPath ? `${currentPath}/${folderName}` : folderName;
       await onCreate(fullPath);
       setFolderName('');
     } catch (err) {

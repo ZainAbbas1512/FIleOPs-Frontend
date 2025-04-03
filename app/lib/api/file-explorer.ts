@@ -44,6 +44,11 @@ import type {
       }
   
     async createFile(data: CreateFileRequest): Promise<FileResponse> {
+
+    // if (data && data.folderPath?.startsWith("root/")) {
+    //     data.folderPath = data.folderPath.substring(5); // Remove "root/"
+    // }
+    
       const response = await fetch(`${this.baseUrl}/files`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -128,6 +133,10 @@ import type {
     async createFolder(data: CreateFolderRequest): Promise<FolderResponse> {
         try {
           await this.checkNetwork();
+          if (data.path.startsWith("root/")) {
+            data.path = data.path.substring(5); // Remove "root/"
+          }
+          
           const response = await fetch(`${this.baseUrl}/folders`, {
             method: 'POST',
             headers: {
