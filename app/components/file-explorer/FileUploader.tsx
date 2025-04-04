@@ -80,10 +80,10 @@ export function FileUploader({ onUpload, currentPath, className = '' }: FileUplo
           const fileName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
           const extension = dotIndex !== -1 ? file.name.substring(dotIndex + 1) : '';
 
-        // if (currentPath.startsWith("root")) 
-        // {
-        //     currentPath = currentPath.substring(5); // Remove "root/"
-        // }
+        if (currentPath.startsWith("root")) 
+        {
+            currentPath = currentPath.substring(5); // Remove "root/"
+        }
 
         let folderPath = currentPath
           .replace(/^root\/?/, '')    // Remove leading "root/"
