@@ -2,6 +2,7 @@
 import { fileExplorerApi } from "@/app/lib/api/file-explorer";
 import { FolderResponse } from "@/app/types/file-explorer";
 import { FileIcon, FolderIcon, Loader2, ArrowLeft } from "lucide-react";
+import path from "path";
 import { useEffect, useState } from "react";
 
 interface FileExplorerItem {
@@ -20,6 +21,10 @@ interface FileExplorerProps {
   onRenameFolder: (id: string, newName: string) => Promise<FolderResponse>;
 }
 
+function print(x:string)
+{
+    console.log(x)
+}
 export function FileExplorer({
   loading,
   currentPath,
@@ -36,15 +41,20 @@ export function FileExplorer({
       setApiLoading(true);
       setError(null);
       try {
-        // 1️⃣ Get all folders & find the current folder by name
+        const segments = currentPath.split("/");
+        const currentFolderName = segments[segments.length - 1];
+        // print(currentFolderName)
         const allFolders = await fileExplorerApi.getAllFolders();
-        const targetFolder = allFolders.find((folder: any) => folder.name === currentPath);
+        const targetFolder = allFolders.find((folder: any) => folder.name === currentFolderName);
+
+        let GetFiles = currentPath
+        // let completePath = `root/${currentPath}`
+        // console.log(`....${completePath}`)
 
         if (!targetFolder) {
           throw new Error(`Folder "${currentPath}" not found`);
         }
 
-        // 2️⃣ Get subfolders of the current folder
         const subFolders = await fileExplorerApi.getFoldersByParentId(targetFolder.id);
         const transformedFolders = subFolders.map((folder: any) => ({
           id: folder.id,
@@ -53,14 +63,17 @@ export function FileExplorer({
           path: folder.path || "",
         }));
 
-        // 3️⃣ Get files inside the current folder
-        const fileData = await fileExplorerApi.findFilesInFolder({ folderPath: currentPath });
+        console.log(`...|.${currentPath}`)
+        console.log(`....|${`root/${GetFiles}`}`)
+        // if(currentPath == "root")
+
+        const fileData = await fileExplorerApi.findFilesInFolder({ folderPath: currentPath == "root"? "root" : `root/${GetFiles}` });
         const transformedFiles = fileData.map((file: any) => ({
-          id: file.id,
-          name: file.name,
-          type: "file" as const,
-          size: file.size,
-          path: file.path,
+            id: file.id,
+            name: file.name,
+            type: "file" as const,
+            size: file.size,
+            path: currentPath,
         }));
 
         // 4️⃣ Update state with folders & files
@@ -75,7 +88,6 @@ export function FileExplorer({
     fetchItems();
   }, [currentPath]); // Re-run when folder changes
 
-  // 📌 Function to go back to the parent folder
   const handleGoBack = () => {
     if (currentPath === "root") return; // Prevent going above root
     const pathParts = currentPath.split("/");
@@ -117,14 +129,14 @@ export function FileExplorer({
         ) : error ? (
           <div className="text-red-500 p-4">{error}</div>
         ) : (
-          <ul className="divide-y divide-gray-700">
+            <ul className="divide-y divide-gray-700">
             {items.map((item) => (
-              <li key={item.id} className="hover:bg-gray-800/50 transition-colors">
+                <li key={item.id} className="hover:bg-gray-800/50 transition-colors">
                 <div className="flex items-center justify-between p-4">
                   <div className="flex items-center space-x-4">
                     {item.type === "folder" ? (
                       <button
-                        onClick={() => onNavigate(`${item.name}`)}
+                        onClick={() => onNavigate(`${item.path}`)}
                         className="flex items-center space-x-2 text-left flex-1"
                       >
                         <FolderIcon className="text-blue-400 h-5 w-5" />

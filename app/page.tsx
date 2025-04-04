@@ -22,13 +22,13 @@ export default function Home() {
 
         {/* Main content */}
         <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          File Explorer Directory Specific Operations
+          File Explorer Directory Operations
         </h1>
         
         <p className="text-gray-300 max-w-2xl text-lg md:text-xl leading-relaxed">
           Revolutionizing file management with cutting-edge technology and 
-          seamless user experiences. Empower your workflow with intelligent 
-          operations and cloud-native capabilities.
+          seamless user experiences. Empower your Directory with intelligent 
+          operations.
         </p>
 
         {/* CTA Button */}
@@ -43,13 +43,13 @@ export default function Home() {
 
         {/* Feature Grid */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-4xl">
-          {['Secure Encryption', 'Cloud Sync', 'AI Organization', 'Multi-Platform'].map((feature) => (
+          {['Secure Encryption', 'Fast Ops', 'Organized', 'Multi-Platform'].map((feature) => (
             <div 
               key={feature}
               className="p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
             >
               <h3 className="text-gray-100 font-medium mb-2">{feature}</h3>
-              <p className="text-sm text-gray-400">Lorem ipsum dolor sit amet</p>
+              <p className="text-sm text-gray-400">FileOps Platform</p>
             </div>
           ))}
         </div>

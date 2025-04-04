@@ -80,10 +80,19 @@ export function FileUploader({ onUpload, currentPath, className = '' }: FileUplo
           const fileName = dotIndex !== -1 ? file.name.substring(0, dotIndex) : file.name;
           const extension = dotIndex !== -1 ? file.name.substring(dotIndex + 1) : '';
 
-        if (currentPath.startsWith("root")) 
-        {
-            currentPath = currentPath.substring(5); // Remove "root/"
-        }
+        // if (currentPath.startsWith("root")) 
+        // {
+        //     currentPath = currentPath.substring(5); // Remove "root/"
+        // }
+
+        let folderPath = currentPath
+          .replace(/^root\/?/, '')    // Remove leading "root/"
+          .replace(/\/+/g, '/')      // Replace multiple slashes
+          .replace(/\/$/, '');       // Remove trailing slash
+
+        console.log('Normalized folder path:', folderPath);
+
+        console.log(currentPath)
           // Map the fields exactly as required by the backend
           const uploadPayload = {
             name: fileName,
