@@ -18,6 +18,7 @@ interface FileExplorerProps {
   currentPath: string;
   onNavigate: (path: string) => void;
   onDeleteFile: (id: string) => Promise<void>;
+  onDeleteFolder: (id: string) => Promise<void>;
   onRenameFolder: (id: string, newName: string) => Promise<FolderResponse>;
 }
 
@@ -30,6 +31,7 @@ export function FileExplorer({
   currentPath,
   onNavigate,
   onDeleteFile,
+  onDeleteFolder,
   onRenameFolder,
 }: FileExplorerProps) {
   const [items, setItems] = useState<FileExplorerItem[]>([]);
@@ -155,24 +157,33 @@ export function FileExplorer({
                     )}
                   </div>
                   <div className="flex space-x-2">
-                    {item.type === "folder" && (
-                      <button
-                        onClick={() => {
-                          const newName = prompt("New folder name:", item.name);
-                          if (newName) onRenameFolder(item.id, newName);
-                        }}
-                        className="text-gray-400 hover:text-yellow-400"
-                      >
-                        Rename
-                      </button>
+                    {item.type === "folder" ? (
+                        <>
+                        <button
+                            onClick={() => {
+                            const newName = prompt("New folder name:", item.name);
+                            if (newName) onRenameFolder(item.id, newName);
+                            }}
+                            className="text-gray-400 hover:text-yellow-400"
+                        >
+                            Rename
+                        </button>
+                        <button
+                            onClick={() => onDeleteFolder(item.id)}
+                            className="text-gray-400 hover:text-red-400 ml-2"
+                        >
+                            Delete
+                        </button>
+                        </>
+                    ) : (
+                        <button
+                        onClick={() => onDeleteFile(item.id)}
+                        className="text-gray-400 hover:text-red-400 ml-2"
+                        >
+                        Delete
+                        </button>
                     )}
-                    <button
-                      onClick={() => onDeleteFile(item.id)}
-                      className="text-gray-400 hover:text-red-400 ml-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                    </div>
                 </div>
               </li>
             ))}

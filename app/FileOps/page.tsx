@@ -38,6 +38,7 @@ export default function FileOps() {
     findFilesInFolder,
     createFolder,
     deleteFile,
+    deleteFolder,
     renameFolder
   } = useFileExplorerApi();
 
@@ -108,6 +109,7 @@ export default function FileOps() {
             loading={loading}
             onNavigate={handleNavigate}
             onDeleteFile={deleteFile}
+            onDeleteFolder={deleteFolder}
             onRenameFolder={renameFolder}
             currentPath={currentPath}
           />

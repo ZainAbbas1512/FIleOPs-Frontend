@@ -67,7 +67,7 @@ export function useFileExplorerApi() {
     createFolder,
     renameFolder,
     deleteFolder: useCallback((folderId: string) => 
-      wrapRequest(() => fileExplorerApi.deleteFolder(folderId)), [wrapRequest]),
+        wrapRequest(() => fileExplorerApi.deleteFolder(folderId)), [wrapRequest]),
     
     // File type methods
     getFilesByType,

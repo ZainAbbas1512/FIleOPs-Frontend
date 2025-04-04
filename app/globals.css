@@ -1,5 +1,98 @@
 @import "tailwindcss";
 
+
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --winter-day-color: #06363c;
+  --winter-night-color: #0a1a3f;
+  --day-duration: 24s;
+}
+
+@keyframes snowflake-fall {
+  0% { top: -1em; }
+  100% { top: 100vh; }
+}
+
+@keyframes snowflake-shake {
+  0% { transform: translateX(0); }
+  33% { transform: translateX(-10vh); }
+  100% { transform: translateY(10vh); }
+}
+
+@keyframes snowflake-wind-w {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(5vw); }
+  60% { transform: translatex(13vw); }
+  100% { transform: translateX(20vw); }
+}
+
+@keyframes day-and-night {
+  0%   { background-color: #06363c; }
+  5%   { background-color: #062f35; }
+  10%  { background-color: #06292e; }
+  15%  { background-color: #062327; }
+  20%  { background-color: #061d20; }
+  25%  { background-color: #061719; }
+  30%  { background-color: #061112; }
+  35%  { background-color: #060b0b; }
+  40%  { background-color: #060505; }
+  45%  { background-color: #030202; }
+  50%  { background-color: #000000; }
+  75%  { background-color: #000000; }
+  80%  { background-color: #030202; }
+  85%  { background-color: #060505; }
+  90%  { background-color: #060b0b; }
+  95%  { background-color: #04272c; }
+  100% { background-color: #06363c; }
+}
+
+
+
+/* Winter background styles */
+.winter-background {
+  animation: day-and-night var(--day-duration) ease-in-out 10s infinite alternate;
+}
+
+.snowflake {
+  position: fixed;
+  top: -1em;
+  color: #fff;
+  pointer-events: none;
+  will-change: transform, top;
+  filter: blur(0.8px);
+  z-index: 1;
+}
+
+.snowflake::before {
+  content: '❄';
+  display: block;
+}
+
+/* Maintain scroll functionality */
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Content layer styling */
+.content-layer {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .snowflake {
+    animation-duration: 1.2s !important;
+    animation-iteration-count: 2 !important;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
